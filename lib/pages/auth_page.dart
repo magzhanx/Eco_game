@@ -12,6 +12,7 @@ class _AuthPageState extends State<AuthPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
 
   Future<void> signUp() async {
     final userCredential = await FirebaseAuth.instance
@@ -30,7 +31,9 @@ class _AuthPageState extends State<AuthPage> {
       'points': 0,
       'unlockedLevel': 1,
       'completedTasks': [],
-    });
+      'name': nameController.text,
+      'role': 'student',
+    }, SetOptions(merge: true));
   }
 
   Future<void> signIn() async {

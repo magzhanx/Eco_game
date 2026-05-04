@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'pages/tasks_page.dart';
 import 'package:provider/provider.dart';
 import 'pages/app_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -101,7 +100,10 @@ class _MainLayoutState extends State<MainLayout> {
               title: Text('Главная'),
               onTap: () => Navigator.pushNamed(context, '/home'),
             ),
-
+            ListTile(
+              title: Text('НАУЧНЫЕ СТАТЬИ ПО ТЕМЕ'),
+              onTap: () => Navigator.pushNamed(context, '/papers'),
+            ),
             ListTile(
               title: Text('Настройки'),
               onTap: () => Navigator.pushNamed(context, '/settings'),

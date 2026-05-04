@@ -1,9 +1,11 @@
+import 'package:ecogame/pages/admin_page.dart';
+import 'package:ecogame/pages/papers_page.dart';
+import 'package:ecogame/pages/tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/settings_page.dart';
 import 'package:provider/provider.dart';
 import 'pages/about_page.dart';
-import 'pages/tasks_page.dart';
 import 'pages/app_state.dart';
 import 'pages/consent_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,15 +32,30 @@ class AuthWrapper extends StatelessWidget {
           return AuthPage(); // не вошёл
         }
 
+        Future.microtask(() {
+          Provider.of<AppState>(context, listen: false).loadUserData();
+        });
+
         // 👇 пользователь есть → проверяем анкету
-        String uid = FirebaseAuth.instance.currentUser!.uid;
+        final user = FirebaseAuth.instance.currentUser;
+
+        if (user == null) {
+          return AuthPage();
+        }
+
+        String uid = user.uid;
 
         return FutureBuilder(
           future: FirebaseFirestore.instance
               .collection('users')
               .doc(uid)
               .get(),
+
+
+
           builder: (context, snapshot) {
+
+
 
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Scaffold(
@@ -50,12 +67,20 @@ class AuthWrapper extends StatelessWidget {
               return ConsentPage(); // 👈 анкета не заполнена
             }
 
+            final userData = snapshot.data!.data() as Map<String, dynamic>;
+            final role = userData['role'] ?? 'student';
+
+            if (role == 'admin') {
+              return AdminPage();
+            }
+
             return HomePage(); // 👈 всё ок
           },
         );
       },
     );
   }
+
 }
 
 void main() async {
@@ -86,6 +111,7 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/home': (context) => HomePage(),
+        '/papers': (context) => PapersPage(),
         '/settings': (context) => SettingsPage(),
         '/about': (context) => AboutPage(),
         '/tasks': (context) => TasksPage(),

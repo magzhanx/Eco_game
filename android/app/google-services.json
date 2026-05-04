@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "772462760057",
-    "project_id": "eco-app-903bb",
-    "storage_bucket": "eco-app-903bb.firebasestorage.app"
+    "project_number": "841625418748",
+    "project_id": "eco-game-15285",
+    "storage_bucket": "eco-game-15285.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:772462760057:android:2936c3bf11abd57190c4a8",
+        "mobilesdk_app_id": "1:841625418748:android:500c36d2850146ff809079",
         "android_client_info": {
           "package_name": "com.example.ecogame"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBI7EjD1r7GVaM9ImKlZT_qaS9UWLOMI7U"
+          "current_key": "AIzaSyDMjNwrd74rChIYOK-snEnJCmqaRwQiyFk"
         }
       ],
       "services": {

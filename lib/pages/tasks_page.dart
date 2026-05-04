@@ -1,7 +1,10 @@
+import 'package:ecogame/main_layout.dart';
+import 'package:ecogame/pages/app_state.dart';
+import 'package:ecogame/pages/block_tasks_page.dart';
+import 'package:ecogame/pages/task_model.dart';
 import 'package:flutter/material.dart';
-import 'TaskDetailPage.dart';
-import '../main_layout.dart';
-import 'app_state.dart';
+import 'post_survey_page.dart';
+
 import 'package:provider/provider.dart';
 
 class TasksPage extends StatefulWidget {
@@ -13,8 +16,14 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends State<TasksPage> {
 
-  Set<int> completedTasks = {};
-  int unlockedLevel = 1; // сколько заданий открыто
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      Provider.of<AppState>(context, listen: false).loadUserData();
+    });
+  }
 
 
   @override
@@ -24,31 +33,38 @@ class _TasksPageState extends State<TasksPage> {
         title: 'Задания',
         body: GridView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: 10,
+        itemCount: taskBlocks.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
         itemBuilder: (context, index) {
-
+          final block = taskBlocks[index];
           int level = index + 1;
-          bool isUnlocked = level <= appState.unlockedLevel;
+          bool isUnlocked = level <= appState.unlockedBlock;
 
           return GestureDetector(
             onTap: isUnlocked
-                ? () async {
-              // открываем задание
-              bool completed = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => TaskDetailPage(
-                      level: level,
+                ? () {
+              if (block.title == 'Итоговая анкета') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => PostSurveyPage(),
                   ),
-                ),
-              );
-
-              // если прошёл — открываем следующий
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BlockTasksPage(
+                      level: level,
+                      block: block,
+                    ),
+                  ),
+                );
+              }
             }
                 : null,
 
@@ -60,7 +76,7 @@ class _TasksPageState extends State<TasksPage> {
               child: Center(
                 child: isUnlocked
                     ? Text(
-                  'Задание $level',
+                  block.title,
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 )
                     : Icon(Icons.lock, color: Colors.white, size: 40),
