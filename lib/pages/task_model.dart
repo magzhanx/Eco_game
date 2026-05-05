@@ -36,14 +36,14 @@ final List<TaskBlock> taskBlocks = [
         description: 'Оцени свой экологический след (еда, транспорт, энергия) \n\n'
             'Напиши краткую информацию в представленное окно и нажми кнопку «ОТПРАВИТЬ» ',
         block: 'Осознание',
-        requirements: [TaskRequirement.text, TaskRequirement.image,],
+        requirements: [TaskRequirement.text,],
       ),
       Task(
         title: 'Задание 2: «Фото-проблема»',
         description:
             'Найди и сфотографируй экологическую проблему в своём городе, напиши, почему это проблема для тебя и как она влияет на общество, также , можешь написать свои предложения, как бы ты это решил(а) ',
         block: 'Осознание',
-        requirements: [TaskRequirement.video, TaskRequirement.text],
+        requirements: [TaskRequirement.image, TaskRequirement.text],
       ),
     ],
   ),
@@ -62,6 +62,9 @@ final List<TaskBlock> taskBlocks = [
 'Фото отсортированного мусора\n'
 '(чтобы было видно категории)\n\n'
 'Ссылки на адреса , где можно сдать на переработку : https://www.instagram.com/p/DJ_aR-ZyGbT/?img_index=1'
+
+
+
 
 , block: 'ПРАКТИКА',requirements: [TaskRequirement.image]),
 
